@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glass Calculator</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+      }
+
+      .calculator {
+        width: 360px;
+        padding: 25px;
+        border-radius: 25px;
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .display {
+        width: 100%;
+        height: 80px;
+        border: none;
+        outline: none;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        text-align: right;
+        padding: 20px;
+        font-size: 2rem;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      button {
+        height: 65px;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: 0.3s;
+        color: white;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(5px);
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .operator {
+        background: #ff9800;
+      }
+
+      .operator:hover {
+        background: #ffb74d;
+      }
+
+      .equal {
+        background: #00c853;
+        grid-column: span 2;
+      }
+
+      .equal:hover {
+        background: #00e676;
+      }
+
+      .clear {
+        background: #f44336;
+      }
+
+      .clear:hover {
+        background: #ff6659;
+      }
+
+      .delete {
+        background: #7c4dff;
+      }
+
+      .delete:hover {
+        background: #9575cd;
+      }
+
+      .title {
+        text-align: center;
+        color: white;
+        margin-bottom: 15px;
+        font-size: 22px;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="calculator">
+      <div class="title">✨ Glass Calculator</div>
+
+      <input type="text" id="display" class="display" readonly />
+
+      <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">AC</button>
+        <button class="delete" onclick="deleteLast()">DEL</button>
+        <button class="operator" onclick="append('%')">%</button>
+        <button class="operator" onclick="append('/')">÷</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button class="operator" onclick="append('*')">×</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button class="operator" onclick="append('-')">−</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button class="operator" onclick="append('+')">+</button>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+      </div>
+    </div>
+
+    <script>
+      const display = document.getElementById("display");
+
+      function append(value) {
+        display.value += value;
+      }
+
+      function clearDisplay() {
+        display.value = "";
+      }
+
+      function deleteLast() {
+        display.value = display.value.slice(0, -1);
+      }
+
+      function calculate() {
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+
+          setTimeout(() => {
+            display.value = "";
+          }, 1000);
+        }
+      }
+
+      document.addEventListener("keydown", (e) => {
+        const key = e.key;
+
+        if ("0123456789+-*/.%".includes(key)) {
+          append(key);
+        } else if (key === "Enter") {
+          calculate();
+        } else if (key === "Backspace") {
+          deleteLast();
+        } else if (key === "Escape") {
+          clearDisplay();
+        }
+      });
+    </script>
+  </body>
+</html>
